@@ -76,10 +76,10 @@ WSGI_APPLICATION = 'task.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'manage',
-        # 'USER': 'tuitoek',
-        # 'PASSWORD':'sarahjt12',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'manage',
+        'USER': 'moringa',
+        'PASSWORD':'sarahjt12',
     }
 }
 

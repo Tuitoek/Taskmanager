@@ -1,251 +1,186 @@
 {% block content %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="index.css">
-    <link href="https://fonts.googleapis.com/css?family=Courgette&display=swap" rel="stylesheet">
-    <title>Title Manager</title>
-  </head>
-  <body>
-    <h1 align="center" style="font-family: 'Courgette', cursive;font-size:30px;">Task Manager</h1>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="index.css">
+  <link href="https://fonts.googleapis.com/css?family=Courgette&display=swap" rel="stylesheet">
+  <title>Title Manager</title>
+</head>
+
+<body>
+  <h1 align="center" style="font-family: 'Courgette', cursive;font-size:30px;">Task Manager</h1>
+  <div class="analog">
     <div class="clock">
-
-    <div class="date">
-
-    </div>
-    <div class="dot">
-
-    </div>
-    <div class="hourhand">
-
-    </div>
-    <div class="minutehand"
-    >
-
-    </div>
-    <div class="secondhand">
-
-    </div>
-    </div>
-    <div>
-      <span class="h3">3</span>
-      <span class="h6">6</span>
-      <span class="h9">9</span>
-      <span class="h12">12</span>
-    </div>
-    <div class="diallines">
+      <div class="hand hour" data-hour-hand></div>
+      <div class="hand minute" data-minute-hand></div>
+      <div class="hand second" data-second-hand></div>
+      <div class="number number1">1</div>
+      <div class="number number2">2</div>
+      <div class="number number3">3</div>
+      <div class="number number4">4</div>
+      <div class="number number5">5</div>
+      <div class="number number6">6</div>
+      <div class="number number7">7</div>
+      <div class="number number8">8</div>
+      <div class="number number9">9</div>
+      <div class="number number10">10</div>
+      <div class="number number11">11</div>
+      <div class="number number12">12</div>
 
     </div>
+  </div>
 
+  <script type="text/javascript">
+    setInterval(setClock, 1000)
 
-    <script src="analog.js" type="text/javascript">
+    const hourHand = document.querySelector('[data-hour-hand]')
+    const minuteHand = document.querySelector('[data-minute-hand]')
+    const secondHand = document.querySelector('[data-second-hand]')
 
-    </script>
-    <script src="vector.js" type="text/javascript">
+    function setClock() {
+      const currentDate = new Date()
+      const secondsRatio = currentDate.getSeconds() / 60
+      const minutesRatio = (secondsRatio + currentDate.getMinutes()) / 60
+      const hoursRatio = (minutesRatio + currentDate.getHours()) / 12
+      setRotation(secondHand, secondsRatio)
+      setRotation(minuteHand, minutesRatio)
+      setRotation(hourHand, hoursRatio)
+    }
 
-    </script>
-    <script type="text/javascript">
-      var diallines = document.getElementsByClass('diallines');
-      var clockE1 = document.getElementsByClass('clock');
+    function setRotation(element, rotationRatio) {
+      element.style.setProperty('--rotation', rotationRatio * 360)
+    }
 
-      for (var i = 1; i < 60; i++) {
-        clockE1.innerHTML += "<div class ='diallines'></div>";
-        diallines[i].style.transform = "rotate( "+ 6 * i +"deg)";
-      }
-      function clock() {
-        var weekday = newArray(7),
-        d = new Date(),
-        h = d.getHours(),
-        m = d.getMinutes(),
-        s = d.getSeconds(),
-        date = d.getDate(),
-        month = m.getMonth() + 1,
-        year = d.getYear(),
+    setClock()
+  </script>
+  <style type="text/css">
+    *,
+    *::after,
+    *::before {
+      box-sizing: border-box;
+    }
+ body{
+  background: linear-gradient(to right, hsl(200, 100%, 50%), hsl(175, 100%, 50%));
+ }
+    .analog {
+     
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
 
-        hDeg = h * 30 + m * (360/720),
-        hDeg = h * 30 + s * (360/720),
-        sDeg = s *6,
+    .clock {
+      width: 300px;
+      height: 300px;
+      background-color: rgba(255, 255, 255, .8);
+      border-radius: 50%;
+      border: 2px solid black;
+      position: relative;
+    }
 
-        hE1 = document.querySelecor('.hourhand'),
-        mE1 = document.querySelecor('.minutehand'),
-        sE1 = document.querySelecor('.secondhand'),
-        dateE1 = document.querySelecor('.date'),
-        dayE1 = document.querySelecor('.day');
+    .clock .number {
+      --rotation: 0;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transform: rotate(var(--rotation));
+      font-size: 1.5rem;
+    }
 
-        weekday[0]="Sunday";
-        weekday[0]="Monday";
-        weekday[0]="Tuesday";
-        weekday[0]="Wednesday";
-        weekday[0]="Thursday";
-        weekday[0]="Friday";
-        weekday[0]="Saturday";
+    .clock .number1 {
+      --rotation: 30deg;
+    }
 
-        var day = weekday[d.getDay()];
-        hE1.style.transform ="rotate("+hDeg +"deg)";
-        mE1.style.transform ="rotate("+mDeg +"deg)";
-        sE1.style.transform ="rotate("+sDeg +"deg)";
-        dateE1.innerHTML = date + "/" + month + "/" + year;
-        dayE1.innerHTML = day;
-      }
-      setInterval("clock()",100);
-    </script>
-    <style type="text/css">
-      .clock{
-        background-color: black;
-        width:300px;
-        height:300px;
-        margin: 8% auto 0;
-        border-radius: 50%;
-        border:14px solid #333;
-        position: relative;
-        box-shadow: 0 2vw 1vw -1vw rgba(0,0,0,0,8);
-      }
-      .dot{
-        width:14px;
-        height: 14px;
-        border-radius: 50%;
-        background: #ccc;
-        top: 0;
-        left:0;
-        right:0;
-        bottom: 0;
-        margin: auto;
-        position: absolute;
-        z-index:10;
-        box-shadow: 0 2px 4px -1 grey;
-      }
-      .hourhand{
-        position: absolute;
-        z-index:5;
-        width: 4px;
-        height: 65px;
-        background-color: blue;
-        top:79px;
-        transform-origin: 50% 72px;
-        left:50%;
-        margin-left: -2px;
-        border-top-left-radius: 50%;
-        border-top-right-radius: 50%;
+    .clock .number2 {
+      --rotation: 60deg;
+    }
 
-      }
-      .minutehand{
-        position: absolute;
-        z-index:6;
-        width: 4px;
-        height: 100px;
-        background-color: white;
-        top:46px;
-        transform-origin: 50% 72px;
-        left:50%;
-        margin-left: -2px;
-        border-top-left-radius: 50%;
-        border-top-right-radius: 50%;
-        transform-origin: 50% 105px;
-      }
-      .secondhand{
-        position: absolute;
-        z-index:7;
-        width: 2px;
-        height: 100px;
-        background-color: red;
-        top:26px;
-        transform-origin: 50% 72px;
-        left:50%;
-        margin-left: -1px;
-        border-top-left-radius: 50%;
-        border-top-right-radius: 50%;
-        transform-origin: 50% 125px;
-      }
-      span{
-        display: inline-block;
-        position: absolute;
-        color: #222;
-        font-size: 22px;
-        font-family: 'Poiret One';
-        font-weight: 700;
-        z-index:4;
-      }
-      .h12{
-        color: white;
-        top: 30px;
-        left:50%;
-        margin-left: -9px;
-      }
-      .h3{
-        color: white;
-        top:140px;
-        right: 30px;
+    .clock .number3 {
+      --rotation: 90deg;
+    }
 
-      }
-      .h6{
-        color: white;
-        bottom: 30px;
-        left:50%;
-        margin-left: -5px;
-      }
-      .h9{
-        color: white;
-        top:140px;
-        left: 32px;
-      }
-      .diallines{
-        position: absolute;
-        z-index: 2;
-        width: 2px;
-        height: 15px;
-        background: #666;
-        left:50%;
-        margin-left: -1px;
-        transform-origin: 50% 150px;
-      }
-      diallines:nth-of-type(5n){
-        position: absolute;
-        z-index: 2;
-        width: 4px;
-        height: 52px;
-        background: #666;
-        left:50%;
-        margin-left: -1px;
-        transform-origin: 50% 150px;
-      }
-      .date{
-        position: absolute;
-        width: 120px;
-        height: 20px;
-        border-radius: 7px;
-        background-color: yellow;
-        text-align: center;
-        line-height: 10px;
-        color: yellow;
-        font-size: 11px;
-        top: 80px;
-        left: 50%;
-        margin-left: -60px;
-        font-family: "Poiret One";
-        font-weight: 700;
-        z-index:3;
-        letter-spacing: 3px;
-      }
-      .day{
-        position: absolute;
-        width: 120px;
-        height: 20px;
-        border-radius: 7px;
-        background-color: yellow;
-        text-align: center;
-        line-height: 10px;
-        color: yellow;
-        font-size: 11px;
-        top: 200px;
-        left: 50%;
-        margin-left: -60px;
-        font-family: "Poiret One";
-        font-weight: 700;
-        z-index:3;
-        letter-spacing: 3px;
-      }
-    </style>
-  </body>
+    .clock .number4 {
+      --rotation: 120deg;
+    }
+
+    .clock .number5 {
+      --rotation: 150deg;
+    }
+
+    .clock .number6 {
+      --rotation: 180deg;
+    }
+
+    .clock .number7 {
+      --rotation: 210deg;
+    }
+
+    .clock .number8 {
+      --rotation: 240deg;
+    }
+
+    .clock .number9 {
+      --rotation: 270deg;
+    }
+
+    .clock .number10 {
+      --rotation: 300deg;
+    }
+
+    .clock .number11 {
+      --rotation: 330deg;
+    }
+
+    .clock .hand {
+      --rotation: 0;
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      border: 1px solid white;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      transform-origin: bottom;
+      z-index: 10;
+      transform: translateX(-50%) rotate(calc(var(--rotation) * 1deg));
+    }
+
+    .clock::after {
+      content: '';
+      position: absolute;
+      background-color: black;
+      z-index: 11;
+      width: 15px;
+      height: 15px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+    }
+
+    .clock .hand.second {
+      width: 3px;
+      height: 45%;
+      background-color: red;
+    }
+
+    .clock .hand.minute {
+      width: 7px;
+      height: 40%;
+      background-color: black;
+    }
+
+    .clock .hand.hour {
+      width: 10px;
+      height: 35%;
+      background-color: black;
+    }
+  </style>
+</body>
+
 </html>
 {% endblock %}

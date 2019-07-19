@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 import datetime as dt
 import time
+import math
 # import turtle
 # wn = turtle.Screen()
 # wn.bgcolor("black")
@@ -87,3 +88,6 @@ from django.http  import HttpResponse
 # Create your views here.
 def welcome(request):
     return  render(request, 'home.html')
+
+def startserver(request):
+    return render(request,'home.html')    
